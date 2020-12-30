@@ -22,6 +22,10 @@ namespace Emlakkko
         public int KiraFiyati { get; set; }
         public int AdresId { get; set; }
 
+        public int discount { get; set; }
+
+        public int discountedPrice { get; set; }
+
         public virtual Adres Adres { get; set; }
         public virtual EvSahibi EvSahibi { get; set; }
         public virtual ICollection<Esya> Esya { get; set; }
