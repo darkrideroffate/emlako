@@ -25,7 +25,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.File)
+                <img src="~/images/@item.File" class="rounded-circle" height="60" width="100" asp-append-version="true" />
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ev.EvTipi)

@@ -13,9 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.EvId)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Ilce)
             </th>
             <th>
@@ -30,9 +27,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EvId)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Ilce)
             </td>

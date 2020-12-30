@@ -1,5 +1,6 @@
 ﻿@model Emlakkko.Fotograf
 
+
 @{
     ViewData["Title"] = "Create";
 }
@@ -10,17 +11,22 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EvId" class="control-label"></label>
-                <select asp-for="EvId" class ="form-control" asp-items="ViewBag.EvId"></select>
+                <select asp-for="EvId" class="form-control" asp-items="ViewBag.EvId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="File" class="control-label"></label>
-                <input asp-for="File" class="form-control" />
-                <span asp-validation-for="File" class="text-danger"></span>
+                <label asp-for="tempPath" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="tempPath" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="tempPath" class="text-danger"></span>
             </div>
+            <input asp-page-handler="Upload" class="btn" type="submit" value="Upload" />
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

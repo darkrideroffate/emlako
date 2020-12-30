@@ -61,7 +61,6 @@ namespace Emlakkko
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.EvId).HasColumnName("ev_id");
 
                 entity.Property(e => e.Il)
                     .IsRequired()

@@ -30,7 +30,7 @@ namespace Emlakkko
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("AuthenticationConnection")));
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<emlakoContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

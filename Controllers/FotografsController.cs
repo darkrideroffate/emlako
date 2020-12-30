@@ -6,16 +6,49 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Emlakkko;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Emlakkko.Controllers
 {
     public class FotografsController : Controller
     {
         private readonly emlakoContext _context;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public FotografsController(emlakoContext context)
+        
+
+        public FotografsController(emlakoContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            webHostEnvironment = hostEnvironment;
+        }
+        // POST: Fotografs/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Fotograf fotograf)
+        {
+
+            if (ModelState.IsValid)
+            {
+                string uniqueFileName = UploadedFile(fotograf);
+                Fotograf fotograf1 = new Fotograf
+                {
+                    EvId = fotograf.EvId,
+                    File = uniqueFileName,
+                };
+                _context.Add(fotograf1);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["EvId"] = new SelectList(_context.Ev, "Id", "EvTipi", fotograf.EvId);
+            return View(fotograf);
+            
         }
 
         // GET: Fotografs
@@ -51,22 +84,7 @@ namespace Emlakkko.Controllers
             return View();
         }
 
-        // POST: Fotografs/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EvId,File")] Fotograf fotograf)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(fotograf);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["EvId"] = new SelectList(_context.Ev, "Id", "EvTipi", fotograf.EvId);
-            return View(fotograf);
-        }
+        
 
         // GET: Fotografs/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -155,22 +173,24 @@ namespace Emlakkko.Controllers
         {
             return _context.Fotograf.Any(e => e.Id == id);
         }
-        //private string UploadedFile(EmployeeViewModel model)
-        //{
-        //    string uniqueFileName = null;
+        private string UploadedFile(Fotograf model)
+        {
+            string uniqueFileName = null;
 
-        //    if (model.ProfileImage != null)
-        //    {
-        //        string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
-        //        uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
-        //        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-        //        using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //        {
-        //            model.ProfileImage.CopyTo(fileStream);
-        //        }
-        //    }
-        //    return uniqueFileName;
-        //}
+            if (model.tempPath != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + model.tempPath.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.tempPath.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
+        }
 
+        
     }
+ 
 }

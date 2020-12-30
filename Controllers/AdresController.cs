@@ -53,7 +53,7 @@ namespace Emlakkko.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EvId,Ilce,Il,Satir1")] Adres adres)
+        public async Task<IActionResult> Create([Bind("Id,Ilce,Il,Satir1")] Adres adres)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace Emlakkko.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EvId,Ilce,Il,Satir1")] Adres adres)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Ilce,Il,Satir1")] Adres adres)
         {
             if (id != adres.Id)
             {
